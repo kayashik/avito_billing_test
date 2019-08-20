@@ -1,4 +1,5 @@
 Это тестовое задание для avito billing (https://github.com/valinurovam/avi-pro-test)
+POSTMEN file - AVITO BILLING.postman_collection
  
  POST {domein}/api/generate
  	input:

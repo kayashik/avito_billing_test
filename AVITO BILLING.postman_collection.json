@@ -1,0 +1,86 @@
+{
+	"info": {
+		"_postman_id": "049473e4-6aa0-40d7-b6b1-9bdd05ffb14a",
+		"name": "AVITO BILLING",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Generate",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "type",
+							"value": "set",
+							"type": "text"
+						},
+						{
+							"key": "length",
+							"value": "16",
+							"type": "text"
+						},
+						{
+							"key": "values[0]",
+							"value": "a",
+							"type": "text"
+						},
+						{
+							"key": "values[1]",
+							"value": "b",
+							"type": "text"
+						},
+						{
+							"key": "values[2]",
+							"value": "c",
+							"type": "text"
+						},
+						{
+							"key": "values[3]",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "values[4]",
+							"value": "5",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{domain}}/api/generate",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/api/retrieve/{{id}}",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"api",
+						"retrieve",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

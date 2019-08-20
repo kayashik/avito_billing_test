@@ -3,20 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Generation;
+use App\Repositories\GenerationRepository;
+use App\Services\GenerationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class GenerateController extends BaseController
 {
+
     /**
      * @param int $id
+     * @param GenerationRepository $generationRepo
      * @return JsonResponse
      */
     public function retrieve(
-        int $id
+        int $id,
+        GenerationRepository $generationRepo
     ) : JsonResponse {
 
-        $generation = Generation::find($id);
+        $generation = $generationRepo->findById($id);
         if ($generation === null) {
             return $this->respondWithError('Ни одного значения по заданному id не найдено.');
         }
@@ -28,10 +33,14 @@ class GenerateController extends BaseController
 
     /**
      * @param Request $request
+     * @param GenerationService $generationService
+     * @param GenerationRepository $generationRepo
      * @return JsonResponse
      */
     public function generate(
-        Request $request
+        Request $request,
+        GenerationService $generationService,
+        GenerationRepository $generationRepo
     ) : JsonResponse {
         $type = $request->input('type');
 
@@ -44,70 +53,13 @@ class GenerateController extends BaseController
                 return $this->respondWithError('Необходимо задать значения для генерации. Значения должны быть в массиве.');
             }
         }
+        $result = $generationService->generate($type, $length, $values);
 
-        $result = null;
-        switch ($type) {
-            case Generation::TYPE_INT: $result = $this->generateInt($length); // generate rand int can use min and max
-                break;
-            case Generation::TYPE_GUID: $result = guid(); // generate rand guid
-                break;
-            case Generation::TYPE_INT_STRING: $result = str_random($length); // generate int and str
-                break;
-            case Generation::TYPE_SET_VALUE: $result = $this->generateFromSet($length, $values); // generate from set
-                break;
-            case Generation::TYPE_STRING:
-            default:
-                $type =  Generation::TYPE_STRING;
-                $result = $this->generateStr($length); // generate rand string;
-        }
-
-        $generation = Generation::create(['result' => $result, 'type' => $type]);
+        $generation = $generationRepo->createRaw(['result' => $result, 'type' => $type]);
 
         return $this->respondWithSuccess(
             ['id' => $generation->id], 'Значение успешно сгенерировано.'
         );
     }
 
-    /**
-     * @param int $length
-     * @return string
-     */
-    protected function generateInt(int $length) : string
-    {
-        $result = '';
-        for($i = 0; $i < $length; $i++) {
-            $result .= mt_rand(0, 9);
-        }
-        return $result;
-    }
-
-    /**
-     * @param int $length
-     * @return string
-     */
-    protected function generateStr(int $length) : string
-    {
-        $values = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        $valuesLength = mb_strlen($values);
-        $result = '';
-        for ($i = 0; $i < $length; $i++) {
-            $result .= $values[rand(0, $valuesLength - 1)];
-        }
-        return $result;
-    }
-
-    /**
-     * @param int $length
-     * @param array $values
-     * @return string
-     */
-    private function generateFromSet(int $length, array $values) : string
-    {
-        $valuesLength = \count($values);
-        $result = '';
-        for ($i = 0; $i < $length; $i++) {
-            $result .= $values[rand(0, $valuesLength - 1)];
-        }
-        return $result;
-    }
 }
