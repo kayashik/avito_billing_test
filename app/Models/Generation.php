@@ -27,4 +27,6 @@ class Generation extends Model
     const TYPE_INT_STRING = 'int_str';
     const TYPE_SET_VALUE = 'set';
     const TYPE_GUID = 'guid';
+
+    const SUPPORTED_TYPES = [self::TYPE_SET_VALUE, self::TYPE_STRING, self::TYPE_INT, self::TYPE_INT_STRING, self::TYPE_GUID];
 }

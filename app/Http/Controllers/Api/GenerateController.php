@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Generation;
+use App\Http\Requests\Api\GenerationCreateRequest;
 use App\Repositories\GenerationRepository;
 use App\Services\GenerationService;
 use Illuminate\Http\JsonResponse;
@@ -38,23 +38,14 @@ class GenerateController extends BaseController
      * @return JsonResponse
      */
     public function generate(
-        Request $request,
+        GenerationCreateRequest $request,
         GenerationService $generationService,
         GenerationRepository $generationRepo
     ) : JsonResponse {
+
         $type = $request->input('type');
 
-        $values = null;
-        $length = $request->has('length') ? $request->input('length') : 16;
-
-        if ($type === Generation::TYPE_SET_VALUE) {
-            $values = $request->input('values');
-            if ($values === null || is_array($values) === false || \count($values) === 0) {
-                return $this->respondWithError('Необходимо задать значения для генерации. Значения должны быть в массиве.');
-            }
-        }
-        $result = $generationService->generate($type, $length, $values);
-
+        $result = $generationService->generate($type, $request->input('length'), $request->input('values'));
         $generation = $generationRepo->createRaw(['result' => $result, 'type' => $type]);
 
         return $this->respondWithSuccess(

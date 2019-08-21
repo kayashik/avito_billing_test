@@ -6,7 +6,6 @@ use App\Models\Generation;
 
 class GenerationService
 {
-
     /**
      * @param string $type
      * @param int $length
@@ -14,11 +13,12 @@ class GenerationService
      * @return string
      */
     public function generate(
-        string &$type,
-        int $length = 16,
+        string &$type = null,
+        int $length = null,
         array $values = null
     ) : string {
 
+        $length = $length !== null ? $length : 16;
         switch ($type) {
             case Generation::TYPE_INT: $result = $this->generateInt($length); // generate rand int can use min and max
                 break;
