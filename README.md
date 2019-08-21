@@ -30,3 +30,7 @@
 	Тесты - tests/Unit/GenerationTest
 	Routes - routes/api
 	Postmen File - AVITO BILLING.postman_collection
+
+Дополнение:
+
+	Добавьте .env файл в корень проекта, скопируйте в него содержимое .env.example и добавьте логин и пароль к базе данных.
