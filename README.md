@@ -1,5 +1,4 @@
 Это тестовое задание для avito billing (https://github.com/valinurovam/avi-pro-test)
-POSTMEN file - AVITO BILLING.postman_collection
 
 Документация к API:
  
@@ -28,3 +27,4 @@ POSTMEN file - AVITO BILLING.postman_collection
 	Контроллер - app/Http/Controllers/Api/GenerateController 
 	Тесты - tests/Unit/GenerationTest
 	Routes - routes/api
+	Postmen File - AVITO BILLING.postman_collection
