@@ -19,10 +19,12 @@
 			message: string
 
 Инструкция к docker:
+
 	1. docker-compose up -d
 	2. docker-compose exec php-fpm php artisan migrate
 	3. go to localhost:8000
 
+Основные файлы:
 
 	Контроллер - app/Http/Controllers/Api/GenerateController 
 	Тесты - tests/Unit/GenerationTest
